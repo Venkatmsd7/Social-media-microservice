@@ -1,5 +1,6 @@
 const jwt=require('jsonwebtoken');
 const RefreshToken=require('../models/refreshToken');
+require('dotenv').config();
 
 const generateAcessToken=async (user)=>{
     return jwt.sign(
@@ -33,7 +34,9 @@ const generateTokens=async (user)=>{
     await RefreshToken.create({
         token:refreshToken,
         user:user._id,
-        expiresAt:new Date(Date.now()+process.env.REFRESH_TOKEN_EXPIRES_IN),
+        expiresAt:new Date().getDate()+process.env.REFRESH_TOKEN_EXPIRES_IN,
     });
     return {accessToken,refreshToken};
     };
+
+    module.exports=generateTokens;

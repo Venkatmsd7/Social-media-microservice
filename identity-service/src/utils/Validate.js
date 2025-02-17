@@ -18,4 +18,4 @@ const ValidateLogin = (data) => {
 
 }
 
-module.exports = { ValidateRegistration, ValidateLogin };
+module.exports = {ValidateRegistration,ValidateLogin};

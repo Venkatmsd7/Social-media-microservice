@@ -1,11 +1,11 @@
-const logger=require('./utils/logger');
-const User=require('./models/user');
-const RefreshToken=require('./models/refreshToken');
-const {validateRegistration,validateLogin}=require('./utils/validate');
-
+const logger=require('../utils/logger');
+const User=require('../models/User');
+const RefreshToken=require('../models/refreshToken');
+const {ValidateRegistration,ValidateLogin}=require('../utils/Validate');
+const generateTokens =require('../utils/generateToken');
 const register=async (req,res)=>{
     try{
-        const {error}=validateRegistration(req.body);
+        const {error}=ValidateRegistration(req.body);
         if(error){
             logger.warn("Validation",error.details[0].message);
             return res.status(400).json({error:error.details[0].message});
@@ -32,7 +32,7 @@ const register=async (req,res)=>{
 }
  const login = async (req, res) => {
     try {
-        const { error } = validateLogin(req.body);
+        const { error } = ValidateLogin(req.body);
         if (error) {
             logger.warn("Validation", error.details[0].message);
             return res.status(400).json({
@@ -51,7 +51,8 @@ const register=async (req,res)=>{
             return res.status(400).json({ error: "Invalid password" });
         }
         logger.info("User logged in successfully", user._id);
-        const { accessToken, refreshToken } = await generateTokens(user);
+        const {accessToken,refreshToken}=await generateTokens(user);
+        logger.info("Token generated successfully", user._id);
         return res.status(200).json({
             message: "User logged in successfully",
             accessToken,

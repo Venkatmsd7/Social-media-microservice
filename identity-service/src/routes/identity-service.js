@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('winston');
 
-const {register,login,refreshTokens,logout} = require('./controllers/identity-service');
+const {register,login,refreshTokens,logout} = require('../controllers/identity-service');
 
 const router = express.Router();
 
