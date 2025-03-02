@@ -6,7 +6,7 @@ const Redis=require('ioredis');
 const {RateLimiterRedis}=require('rate-limiter-flexible');
 const {RedisStore}=require('rate-limit-redis');
 require('dotenv').config();
-const router=require('./routes/post-service.js');
+const postRoutes=require('./routes/post-service.js');
 const errorHandler=require('./middlware/errorHandler.js');
 
 const redisClient=new Redis(process.env.REDIS_URL);
@@ -52,7 +52,7 @@ const sensitiveEndpointRateLimiter = rateLimit({
 app.use('/api/post',sensitiveEndpointRateLimiter,(req,res,next)=>{
         req.redisClient=redisClient;
         next();
-},router);
+},postRoutes);
 app.use(errorHandler);
 
 app.listen(process.env.PORT,()=>{
